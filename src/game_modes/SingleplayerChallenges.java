@@ -1,0 +1,30 @@
+package game_modes;
+
+public enum SingleplayerChallenges {
+	
+	Beginner, 
+    Casual, 
+    Intermediate, 
+    Hard, 
+    Harder,
+    Master,
+    Samurai,
+    Expert,
+    Accomplished,
+    Sensei,
+    Legendary, 
+    Nightmarish, 
+    Unfair,
+    Unfaircore,
+    TheBoss,
+    DailyFun,
+    DailyWeird,
+    DailyTough,
+    WeeklyFun,
+    WeeklyWeird,
+    WeeklyTough,
+    MonthlyFun,
+    MonthlyWeird,
+    MonthlyTough,
+    Sandbox,
+}
