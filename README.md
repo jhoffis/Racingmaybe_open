@@ -56,10 +56,10 @@ Lobby                          │       ├── Upgrades
 ├── CarChoiceSubscene          │       ├── Layer
 └── UpgradesSubscene           │       └── Car
                                │
-Race                           └── GameRemoteMaster
-├── RaceVisual                     • Game End Control
-├── FinishVisual
-└── WinVisual
+Race                           ├── Store 
+├── RaceVisual                 │ 
+├── FinishVisual               └── GameRemoteMaster
+└── WinVisual                      • Game End Control
                                                                 
 Car
 ├── CarFuncs
