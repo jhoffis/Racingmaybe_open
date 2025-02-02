@@ -5,10 +5,19 @@ To compile, you will need:
 - **Maven**  
   - Copy the `src` folder into a blank **Java 18+ Maven project**  
   - Set the `res` folder as the **resource folder**  
-  - Set the `src` folder as the **source folder**  
-  - Then, either **"Update Project"** or **"Install Packages"**  
+  - Set the `src` folder as the **source folder**
 
-- **A copy of the game** to copy over the necessary assets  
+---
+##  Required Asset Transfers  
+**A copy of the game** to copy over the necessary assets.
+Copy the following into the **root** of this project:  
+- The `res/` folder from inside `bin/racingmaybe.jar`  
+- The following folders:  
+  - `audio`  
+  - `images`  
+  - `models`  
+- Then, either **"Update Project"** or **"Install Packages"** using the pom.xml
+---
 
 - **Exporting the final `.jar` (optional, using Eclipse)**  
   1. Click **"Export"** → **"Runnable JAR file"**  
@@ -20,18 +29,6 @@ To compile, you will need:
      ```sh
      .\jre\bin\java.exe --enable-preview -jar bin/racingmaybe.jar
      ```
-
----
-
-##  Required Asset Transfers  
-Copy the following into the **root** of this project:  
-- The `res/` folder from inside `bin/racingmaybe.jar`  
-- The following folders:  
-  - `audio`  
-  - `images`  
-  - `models`  
-
----
 
 ##  Contribution & Redistribution  
 
