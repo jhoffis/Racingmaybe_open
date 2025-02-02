@@ -1,3 +1,9 @@
+
+#  Contribution & Redistribution  
+
+- **Redistribution is not allowed**, but you are **free to modify** the game and contribute!  
+- If you submit a **pull request**, it is likely to be included in the next patch! ^^
+
 #  Compilation Instructions  
 
 To compile, you will need:  
@@ -29,9 +35,45 @@ Copy the following into the **root** of this project:
      ```sh
      .\jre\bin\java.exe --enable-preview -jar bin/racingmaybe.jar
      ```
+# Basic code structure
+```
+UIUsernameModal                ┌─────────────────────────────────────────────────┐
+  ▲     │                      │                                                 │
+  │     ▼                      ▼                                                 │
+  │   Lobby/Race ◀────────► GameInfo ──► Message ──► Remote ──► Message ──► Translator
+  │     ▲                      │
+  │     │                      ├── GameMode
+SceneHandler ◀─ InputHandler   │   • Points Management
+     ▲                         │   • Money Management
+     │                         │   • Track Length
+   Main                        │   • Rounds Management
+                               │
+                               ├── Players
+                               │   └── Player
+                               │       ├── History
+                               │       ├── Bank
+Lobby                          │       ├── Upgrades
+├── CarChoiceSubscene          │       ├── Layer
+└── UpgradesSubscene           │       └── Car
+                               │
+Race                           └── GameRemoteMaster
+├── RaceVisual                     • Game End Control
+├── FinishVisual
+└── WinVisual
+                                                                
+Car
+├── CarFuncs
+├── CarStats
+├── CarAudio
+└── Rep
 
-##  Contribution & Redistribution  
-
-- **Redistribution is not allowed**, but you are **free to modify** the game and contribute!  
-- If you submit a **pull request**, it is likely to be included in the next patch! ^^
-
+Upgrades & Layer & TileVisual (+TilePiece)
+├── Upgrade
+│   ├── RegVals
+│   └── UIBonusModal
+├── Tool
+└── EmptyTile 
+ 
+Features
+└── Global Interaction Access
+```
