@@ -17,7 +17,7 @@ To compile, you will need:
 ##  Required Asset Transfers  
 **A copy of the game** to copy over the necessary assets.
 Copy the following into the **root** of this project:  
-- The `res/` folder from inside `bin/racingmaybe.jar`  
+- Create a `res/` folder and copy the folders `shaders`, `fonts`, and `linux-x86-64` from inside `bin/racingmaybe.jar`  
 - The following folders:  
   - `audio`  
   - `images`  
