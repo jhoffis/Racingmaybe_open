@@ -30,7 +30,6 @@ hs_err_pid*
 .classpath
 .project
 *.properties
-/bin/
 /audio/
 .idea/*
 target/*
@@ -39,3 +38,7 @@ errorLog_Update*
 /target/
 /replays/
 res/linux-x86-64/library/lib/libzig.so
+/.idea/
+/models/
+/images/
+/res/
