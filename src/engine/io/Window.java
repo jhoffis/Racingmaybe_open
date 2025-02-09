@@ -46,7 +46,6 @@ import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import main.Features;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
@@ -70,6 +69,7 @@ import main.Main;
 import main.Texts;
 import scenes.SceneHandler;
 import settings_and_logging.RSet;
+import utils.FileValidator;
 
 public class Window {
 
@@ -169,6 +169,8 @@ public class Window {
 		GLFW.glfwSetWindowFocusCallback(window, (window, focused) -> {
 			this.focused = focused;
 		});
+
+		FileValidator.throwErrorOnMissingDir("./images");
 
 		// ICON
 		setIcon("./images/icon.png");
