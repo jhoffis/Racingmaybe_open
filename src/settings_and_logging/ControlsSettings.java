@@ -2,19 +2,18 @@ package settings_and_logging;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class ControlsSettings extends SettingsOld {
+public class ControlsSettings extends Settings {
 
-	final int gears = 7;
-	
+	private static final int GEARS = 7;
+
 	public ControlsSettings() {
-		if (super.init("keys.properties", 14 + gears)) {
-			init();
-		}
+		super.init("keys.properties");
+		init();
+
 	}
-	
+
 	public void init() {
-		// Set the standard keys to file ( WASD / arrows Space Shift Ctrl Enter )
-		int[] gearList = { GLFW_KEY_N, GLFW_KEY_U, GLFW_KEY_J, GLFW_KEY_I, GLFW_KEY_K, GLFW_KEY_O, GLFW_KEY_L };
+		int[] gearList = {GLFW_KEY_N, GLFW_KEY_U, GLFW_KEY_J, GLFW_KEY_I, GLFW_KEY_K, GLFW_KEY_O, GLFW_KEY_L};
 		setThrottle(GLFW_KEY_W);
 		setBrake(GLFW_KEY_S);
 		setClutch(GLFW_KEY_SPACE);
@@ -23,7 +22,7 @@ public class ControlsSettings extends SettingsOld {
 		setLookBehind(GLFW_KEY_R);
 		setGearUp(GLFW_KEY_DOWN);
 		setGearDown(GLFW_KEY_UP);
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < GEARS; i++) {
 			setGear(gearList[i], i);
 		}
 		setReady(GLFW_KEY_R);
@@ -34,51 +33,51 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public void setReady(int v) {
-		writeToLine("Ready=" + v, 9 + gears);
+		writeToLine("Ready=" + v, 9 + GEARS);
 	}
 
 	public int getReady() {
-		return getSettingInteger(9 + gears);
+		return getInt(9 + GEARS);
 	}
-	
+
 	public void setUndo(int v) {
-		writeToLine("Undo=" + v, 10  + gears);
+		writeToLine("Undo=" + v, 10 + GEARS);
 	}
-	
+
 	public int getUndo() {
-		return getSettingInteger(10  + gears);
+		return getInt(10 + GEARS);
 	}
-	
+
 	public void setSell(int v) {
-		writeToLine("Sell=" + v, 11 + gears);
+		writeToLine("Sell=" + v, 11 + GEARS);
 	}
-	
+
 	public int getSell() {
-		return getSettingInteger(11 + gears);
+		return getInt(11 + GEARS);
 	}
-	
+
 	public void setImprove(int v) {
-		writeToLine("Improve=" + v, 12 + gears);
+		writeToLine("Improve=" + v, 12 + GEARS);
 	}
-	
+
 	public int getImprove() {
-		return getSettingInteger(12 + gears);
+		return getInt(12 + GEARS);
 	}
-	
+
 	public void setQuitRace(int v) {
-		writeToLine("QuitRace=" + v, 13 + gears);
+		writeToLine("QuitRace=" + v, 13 + GEARS);
 	}
-	
+
 	public int getQuitRace() {
-		return getSettingInteger(13 + gears);
+		return getInt(13 + GEARS);
 	}
-	
+
 	public void setThrottle(int v) {
 		writeToLine("Throttle=" + v, 0);
 	}
-	
+
 	public int getThrottle() {
-		return getSettingInteger(0);
+		return getInt(0);
 	}
 
 	public void setBrake(int v) {
@@ -86,7 +85,7 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public int getBrake() {
-		return getSettingInteger(1);
+		return getInt(1);
 	}
 
 	public void setClutch(int v) {
@@ -94,7 +93,7 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public int getClutch() {
-		return getSettingInteger(2);
+		return getInt(2);
 	}
 
 	public void setNOS(int v) {
@@ -102,7 +101,7 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public int getNOS() {
-		return getSettingInteger(3);
+		return getInt(3);
 	}
 
 	public void setGearUp(int v) {
@@ -110,7 +109,7 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public int getGearUp() {
-		return getSettingInteger(4);
+		return getInt(4);
 	}
 
 	public void setTurboBlow(int v) {
@@ -118,23 +117,23 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public int getTurboBlow() {
-		return getSettingInteger(5);
+		return getInt(5);
 	}
-	
+
 	public void setLookBehind(int v) {
 		writeToLine("BlowTurbo=" + v, 6);
 	}
 
 	public int getLookBehind() {
-		return getSettingInteger(6);
+		return getInt(6);
 	}
-	
+
 	public void setGearDown(int v) {
 		writeToLine("GearDown=" + v, 7);
 	}
 
 	public int getGearDown() {
-		return getSettingInteger(7);
+		return getInt(7);
 	}
 
 	public void setGear(int v, int gear) {
@@ -142,6 +141,6 @@ public class ControlsSettings extends SettingsOld {
 	}
 
 	public int getGear(int gear) {
-		return getSettingInteger(8 + gear);
+		return getInt(8 + gear);
 	}
 }
