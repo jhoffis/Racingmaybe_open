@@ -36,6 +36,18 @@ Copy the following into the **root** of this project:
      ```sh
      .\jre\bin\java.exe --enable-preview -jar bin/racingmaybe.jar
      ```
+
+- **Exporting the final `.jar` (optional, using IntelliJ)**
+  1. Create `/bin` folder in the project root
+  2. Open `File -> Project Structure` (`Ctrl+Alt+Shift+S`), navigate to `Artifacts` and click the `+` button
+  2. Select `JAR` -> `From modules with dependencies`
+  3. Select main class as `Main.main`
+  4. Directory of manifest should be the `/res` folder in the project
+  3. Set **Output Directory** in Artifacts menu inside the created `bin/` folder
+  4. Click **Apply** and **OK**
+  5. Build the artifact by selecting `Build -> Build Artifacts...` and selecting the artifact
+  6. To launch, right-click created `RM.jar` and select `Run`
+
 # Basic code structure
 ```
 UIUsernameModal                ┌─────────────────────────────────────────────────┐
