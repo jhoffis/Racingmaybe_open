@@ -1,146 +1,132 @@
 package settings_and_logging;
 
-import static org.lwjgl.glfw.GLFW.*;
-
 public class ControlsSettings extends Settings {
 
 	private static final int GEARS = 7;
-
-	public ControlsSettings() {
-		super.init("keys.properties");
-		init();
-
-	}
-
-	public void init() {
-		int[] gearList = {GLFW_KEY_N, GLFW_KEY_U, GLFW_KEY_J, GLFW_KEY_I, GLFW_KEY_K, GLFW_KEY_O, GLFW_KEY_L};
-		setThrottle(GLFW_KEY_W);
-		setBrake(GLFW_KEY_S);
-		setClutch(GLFW_KEY_SPACE);
-		setNOS(GLFW_KEY_E);
-		setTurboBlow(GLFW_KEY_Q);
-		setLookBehind(GLFW_KEY_R);
-		setGearUp(GLFW_KEY_DOWN);
-		setGearDown(GLFW_KEY_UP);
-		for (int i = 0; i < GEARS; i++) {
-			setGear(gearList[i], i);
-		}
-		setReady(GLFW_KEY_R);
-		setUndo(GLFW_KEY_U);
-		setSell(GLFW_KEY_S);
-		setImprove(GLFW_KEY_SPACE);
-		setQuitRace(GLFW_KEY_ESCAPE);
-	}
+	private static final int THROTTLE_LINE = 0;
+	private static final int BRAKE_LINE = 1;
+	private static final int CLUTCH_LINE = 2;
+	private static final int NOS_LINE = 3;
+	private static final int GEAR_UP_LINE = 4;
+	private static final int TURBO_BLOW_LINE = 5;
+	private static final int LOOK_BEHIND_LINE = 6;
+	private static final int GEAR_DOWN_LINE = 7;
+	private static final int GEAR_BASE_LINE = 8;
+	private static final int READY_LINE = 9;
+	private static final int UNDO_LINE = 10;
+	private static final int SELL_LINE = 11;
+	private static final int IMPROVE_LINE = 12;
+	private static final int QUIT_RACE_LINE = 13;
 
 	public void setReady(int v) {
-		writeToLine("Ready=" + v, 9 + GEARS);
+		writeToLine("Ready=" + v, READY_LINE + GEARS);
 	}
 
 	public int getReady() {
-		return getInt(9 + GEARS);
+		return getInt(READY_LINE + GEARS);
 	}
 
 	public void setUndo(int v) {
-		writeToLine("Undo=" + v, 10 + GEARS);
+		writeToLine("Undo=" + v, UNDO_LINE + GEARS);
 	}
 
 	public int getUndo() {
-		return getInt(10 + GEARS);
+		return getInt(UNDO_LINE + GEARS);
 	}
 
 	public void setSell(int v) {
-		writeToLine("Sell=" + v, 11 + GEARS);
+		writeToLine("Sell=" + v, SELL_LINE + GEARS);
 	}
 
 	public int getSell() {
-		return getInt(11 + GEARS);
+		return getInt(SELL_LINE + GEARS);
 	}
 
 	public void setImprove(int v) {
-		writeToLine("Improve=" + v, 12 + GEARS);
+		writeToLine("Improve=" + v, IMPROVE_LINE + GEARS);
 	}
 
 	public int getImprove() {
-		return getInt(12 + GEARS);
+		return getInt(IMPROVE_LINE + GEARS);
 	}
 
 	public void setQuitRace(int v) {
-		writeToLine("QuitRace=" + v, 13 + GEARS);
+		writeToLine("QuitRace=" + v, QUIT_RACE_LINE + GEARS);
 	}
 
 	public int getQuitRace() {
-		return getInt(13 + GEARS);
+		return getInt(QUIT_RACE_LINE + GEARS);
 	}
 
 	public void setThrottle(int v) {
-		writeToLine("Throttle=" + v, 0);
+		writeToLine("Throttle=" + v, THROTTLE_LINE);
 	}
 
 	public int getThrottle() {
-		return getInt(0);
+		return getInt(THROTTLE_LINE);
 	}
 
 	public void setBrake(int v) {
-		writeToLine("Brake=" + v, 1);
+		writeToLine("Brake=" + v, BRAKE_LINE);
 	}
 
 	public int getBrake() {
-		return getInt(1);
+		return getInt(BRAKE_LINE);
 	}
 
 	public void setClutch(int v) {
-		writeToLine("Clutch=" + v, 2);
+		writeToLine("Clutch=" + v, CLUTCH_LINE);
 	}
 
 	public int getClutch() {
-		return getInt(2);
+		return getInt(CLUTCH_LINE);
 	}
 
 	public void setNOS(int v) {
-		writeToLine("NOS=" + v, 3);
+		writeToLine("NOS=" + v, NOS_LINE);
 	}
 
 	public int getNOS() {
-		return getInt(3);
+		return getInt(NOS_LINE);
 	}
 
 	public void setGearUp(int v) {
-		writeToLine("GearUp=" + v, 4);
+		writeToLine("GearUp=" + v, GEAR_UP_LINE);
 	}
 
 	public int getGearUp() {
-		return getInt(4);
+		return getInt(GEAR_UP_LINE);
 	}
 
 	public void setTurboBlow(int v) {
-		writeToLine("StrutsAle=" + v, 5);
+		writeToLine("StrutsAle=" + v, TURBO_BLOW_LINE);
 	}
 
 	public int getTurboBlow() {
-		return getInt(5);
+		return getInt(TURBO_BLOW_LINE);
 	}
 
 	public void setLookBehind(int v) {
-		writeToLine("BlowTurbo=" + v, 6);
+		writeToLine("BlowTurbo=" + v, LOOK_BEHIND_LINE);
 	}
 
 	public int getLookBehind() {
-		return getInt(6);
+		return getInt(LOOK_BEHIND_LINE);
 	}
 
 	public void setGearDown(int v) {
-		writeToLine("GearDown=" + v, 7);
+		writeToLine("GearDown=" + v, GEAR_DOWN_LINE);
 	}
 
 	public int getGearDown() {
-		return getInt(7);
+		return getInt(GEAR_DOWN_LINE);
 	}
 
 	public void setGear(int v, int gear) {
-		writeToLine("Gear" + gear + "=" + v, 8 + gear);
+		writeToLine("Gear" + gear + "=" + v, GEAR_BASE_LINE + gear);
 	}
 
 	public int getGear(int gear) {
-		return getInt(8 + gear);
+		return getInt(GEAR_BASE_LINE + gear);
 	}
 }
