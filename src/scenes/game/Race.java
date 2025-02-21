@@ -5,11 +5,9 @@ import java.util.function.Consumer;
 import elem.MovingThings;
 import engine.graphics.interactions.LobbyTopbar;
 import engine.graphics.ui.modal.UIConfirmModal;
-import engine.math.Vec3;
 import main.Main;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import adt.IAction;
@@ -48,7 +46,7 @@ import scenes.game.lobby_subscenes.UpgradesSubscene;
 import scenes.game.racing_subscenes.FinishVisual;
 import scenes.game.racing_subscenes.RaceVisual;
 import scenes.game.racing_subscenes.WinVisual;
-import settings_and_logging.hotkeys.RaceKeys;
+import settings_and_logging.hotkeys.CurrentControls;
 
 /**
  * Kj�r thread p� lobby n�r du skal tilbake
@@ -72,7 +70,6 @@ public class Race extends Scene {
 	private final WinVisual winVisual;
 	protected Visual currentVisual;
 
-	public final RaceKeys keys;
 	private long startTime;
 	private long waitTime, burnoutTimeLocal;
 	private boolean running;
@@ -111,10 +108,11 @@ public class Race extends Scene {
 
 	private long controllerScroll;
 
+	private final CurrentControls controls = CurrentControls.getInstance();
+
 	public Race(TransparentTopbar topbar, LobbyTopbar winTopbar) {
 		super(topbar, Scenes.RACE);
 //        SpriteNumeric.CreateNumbers();
-		keys = new RaceKeys();
 
 		var w = Window.HEIGHT / 2.14f;
 		raceLobbyLabel = new UIScrollable(new UIFont(Font.BOLD_REGULAR, -1), Scenes.RACE,
@@ -388,7 +386,7 @@ public class Race extends Scene {
 
 		changeVisual(raceVisual);
 		closeCache();
-		
+
 		com.goInTheRace(com.player);
 
 		raceVisual.initBeforeNewRace(com.getSortedPlayersExtra(), SceneHandler.cam, com.getTrackLength(),
@@ -404,7 +402,7 @@ public class Race extends Scene {
 		raceVisual.burnout = true;
 
 		finishVisual.setWinnerText("", UIColors.WHITE, false);
-		
+
 		nosControllerWasDown = false;
 	}
 
@@ -417,7 +415,7 @@ public class Race extends Scene {
 						.accept(((SingleplayerChallengesMode) com.getGamemode()).getChallengeLevel());
 				return;
 			}
-			
+
 //			initiated = false;
 //			com.reset();
 //			rematchAction.run();
@@ -548,7 +546,7 @@ public class Race extends Scene {
 			currentVisual.tick(delta);
 
 		var now = System.currentTimeMillis();
-		
+
 		if (InputHandler.CONTROLLER_EFFECTIVELY && currentVisual != winVisual || !winVisual.hasPlayer()) {
 			controllerInput();
 		}
@@ -565,15 +563,15 @@ public class Race extends Scene {
 				return;
 
 			raceVisual.setExtraGamemodeInfoText(com.getGamemode());
-            if (!com.isSingleplayer()) {
-                if (car.getStats().distance > 0 && raceInformationTick < now) {
-                    com.raceInformation(com.player, Math.round(-car.getStats().distance * 10d) / 10f, car.getSpeed(),
-                            car.getStats().spdinc, car.getStats().brake != 0, now - getStartTime(), true);
-                    raceInformationTick = now + 50;
-                }
-            }
+			if (!com.isSingleplayer()) {
+				if (car.getStats().distance > 0 && raceInformationTick < now) {
+					com.raceInformation(com.player, Math.round(-car.getStats().distance * 10d) / 10f, car.getSpeed(),
+							car.getStats().spdinc, car.getStats().brake != 0, now - getStartTime(), true);
+					raceInformationTick = now + 50;
+				}
+			}
 
-        } else if (!com.resigned) {
+		} else if (!com.resigned) {
 			if (com.player.role == Player.COMMENTATOR && currentVisual == raceVisual) {
 				finishRace(CHEATED_TOO_EARLY);
 				return;
@@ -729,10 +727,10 @@ public class Race extends Scene {
 					String gold = outputs[i];
 					if (!gold.equals("x") && gold.length() != 0)
 						infoLine.append(", ").append(gold);
-					
+
 					if (!singleplayer)
 						result.append(nameLine).append("#").append(color).append("\n");
-					
+
 					result.append(" ").append(timeLine).append("#")
 							.append(color).append("\n ").append(infoLine).append("#").append(color);
 				}
@@ -805,11 +803,11 @@ public class Race extends Scene {
 			}
 			result.append("\nWin: less than ").append(SingleplayerChallengesMode.timeToBeat(sp.getEndGoal()));
 		}
-		
+
 		if (com.isGameOver()) {
 			result.append("\n\n").append(Lobby.newlineText(com.getGamemode().getEndGoalText(), 40)).append("\n");
 		}
-		
+
 		if (Main.DEBUG) {
 			for (int i = 0; i < 32; i++)
 				result.append("\ntest");
@@ -846,7 +844,7 @@ public class Race extends Scene {
 	}
 
 	public void changeVisual(Visual newVisual) {
-        Features.inst.getWindow().setCursor(CursorType.cursorNormal);
+		Features.inst.getWindow().setCursor(CursorType.cursorNormal);
 
 		if (newVisual.equals(finishVisual)) {
 			Visual.setGobackName(Texts.continueText);
@@ -865,7 +863,7 @@ public class Race extends Scene {
 		currentVisual = newVisual;
 		newVisual.updateGenerally(SceneHandler.cam);
 	}
-	
+
 
 	@Override
 	public void charInput(String c) {
@@ -888,14 +886,15 @@ public class Race extends Scene {
 			return;
 		}
 
-		if (keys.isNos(key))
+		if (controls.getThrottle().getKeycode() == key) {
 			car.nos(action != GLFW.GLFW_RELEASE);
+		}
 
 		if (action != GLFW.GLFW_RELEASE) {
 			/*
 			 * PRESS
 			 */
-			if (keys.isThrottle(key)) {
+			if (controls.getThrottle().getKeycode() == key) {
 				if (!car.getRep().is(Rep.manualClutch)
 						&& (running || !car.getRep().is(Rep.twoStep) && (raceLights > GameMode.raceLightsCanStartDriving || Main.DEBUG))) {
 					car.clutch(false);
@@ -903,52 +902,27 @@ public class Race extends Scene {
 
 				raceVisual.getGearbox().updateThrottleStats(true);
 				car.throttle(true, true);
-			}
-			// else if (keys.isStompThrottle(key)) {
-			// car.stompThrottle(false);
-			// }
-			else if (keys.isBrake(key)) {
+			} else if (controls.getBrake().getKeycode() == key) {
 				car.brake(true);
-			} else if (keys.isClutch(key) && car.getRep().is(Rep.manualClutch)) {
+			} else if (controls.getClutch().getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
 				car.clutch(true);
-			} else if (keys.isBlowTurbo(key)) {
+			} else if (controls.getBlowTurbo().getKeycode() == key) {
 				car.blowTurbo(true);
-			} else if (!com.isSingleplayer() && key == RaceKeys.lookBehind) {
+			} else if (!com.isSingleplayer() && key == controls.getLookBehind().getKeycode()) {
 				raceVisual.lookBehind = true;
 			} else if (car.getStats().sequentialShift) {
-				if (keys.isShiftUp(key)) {
-					// up arrow
+				if (controls.getShiftUp().getKeycode() == key) {
 					car.shiftUp(System.currentTimeMillis());
 				}
-				if (keys.isShiftDown(key)) {
-					// down arrow
+				if (controls.getShiftDown().getKeycode() == key) {
 					car.shiftDown(System.currentTimeMillis());
 				}
 			}
-			// Gearbox
-			// else if (!car.getStats().sequentialShift) {
-			// for (int i = 0; i <= car.getRep().getGearTop(); i++) {
-			// if (keys.isGear(key, i)) {
-			// car.shift(i);
-			// }
-			// }
-			// } else {
-			// if (keys.isShiftUp(key)) {
-			// // up arrow
-			// car.shiftUp(true);
-			// }
-			// if (keys.isShiftDown(key)) {
-			// // down arrow
-			// car.shiftDown(true);
-			// }
-			// }
-
 		} else {
 			/*
 			 * RELEASE
 			 */
-			if (keys.isThrottle(key)) {
-
+			if (controls.getThrottle().getKeycode() == key) {
 				if (!car.getRep().is(Rep.manualClutch) && ((raceLights > GameMode.raceLightsCanStartDriving || Main.DEBUG) || running)) {
 					car.clutch(true);
 				}
@@ -957,23 +931,16 @@ public class Race extends Scene {
 				raceVisual.getGearbox().updateThrottleStats(false);
 				if (!running)
 					raceVisual.setWarning("");
-			}
-			// else if (keys.isStompThrottle(key)) {
-			// car.stompThrottle(true);
-			// }
-			else if (keys.isBrake(key)) {
+			} else if (controls.getBrake().getKeycode() == key) {
 				car.brake(false);
-			} else if (keys.isClutch(key) && car.getRep().is(Rep.manualClutch)) {
+			} else if (controls.getClutch().getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
 				car.clutch(false);
-			} else if (keys.isBlowTurbo(key)) {
+			} else if (controls.getBlowTurbo().getKeycode() == key) {
 				car.blowTurbo(false);
-			} else if (key == RaceKeys.lookBehind) {
+			} else if (key == controls.getLookBehind().getKeycode()) {
 				raceVisual.lookBehind = false;
 			}
-			// else if (keys.isEngineON(key)) {
-			// car.setEngineON(true);
-			// }
-			if (key == RaceKeys.quitRace) {
+			if (key == controls.getQuitRace().getKeycode()) {
 				finishRace(CHEATED_GAVE_IN);
 			}
 
@@ -990,13 +957,14 @@ public class Race extends Scene {
 		}
 	}
 
+
 	@Override
 	public void controllerInput() {
 		game.controllerInput();
 
 		if (finished || com.player.role == Player.COMMENTATOR) {
 			currentVisual.controllerInput();
-			
+
 			if (System.currentTimeMillis() > controllerScroll) {
 				if (Math.max(InputHandler.RIGHT_STICK_Y, InputHandler.LEFT_STICK_Y) > .1) {
 					mouseScrollInput(0, -1);
@@ -1019,7 +987,7 @@ public class Race extends Scene {
 		if (raceVisual.burnout) {
 			return;
 		}
-		
+
 		if (running || raceLights > GameMode.raceLightsCanStartDriving) {
 			if (InputHandler.BTN_X) {
 				car.nos(true);
@@ -1035,7 +1003,7 @@ public class Race extends Scene {
 		} else if (stats.turboBlowON) {
 			car.blowTurbo(false);
 		}
-		
+
 		if (!com.isSingleplayer())
 			raceVisual.lookBehind = InputHandler.BTN_Y;
 
@@ -1059,7 +1027,7 @@ public class Race extends Scene {
 			if (!running)
 				raceVisual.setWarning("");
 		}
-		
+
 		car.throttle(throttlePerc, true);
 
 		if (InputHandler.LEFT_TRIGGER > -1) {
@@ -1082,7 +1050,7 @@ public class Race extends Scene {
 				gearboxControllerDelay -= Timer.lastDelta;
 				return;
 			}
-			
+
 			final var sensitivity = .2f;
 			final var spd = 60f;
 			if (Math.abs(InputHandler.LEFT_STICK_X) > sensitivity) {
@@ -1112,12 +1080,12 @@ public class Race extends Scene {
 			}
 
 			gearbox.move(controllerX, controllerY);
-			
+
 			if (stats.gear != prevGear && stats.gear != 0) {
 				var leverPos = gearbox.getGearboxLever().position();
 				controllerX = leverPos.x;
 				controllerY = leverPos.y;
-				
+
 //				if (Features.ran.nextFloat() <= 0.02) {
 //					car.shift(0, System.currentTimeMillis());
 //					gearbox.release(0, 0);
@@ -1125,7 +1093,7 @@ public class Race extends Scene {
 //					leverPos = gearbox.getGearboxLever().position();
 //					controllerX = leverPos.x;
 //					controllerY = leverPos.y;
-//					
+//
 //					gearboxControllerDelay = 10f;
 //				}
 			}
