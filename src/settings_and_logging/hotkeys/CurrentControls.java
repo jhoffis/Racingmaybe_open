@@ -4,30 +4,34 @@ import org.lwjgl.glfw.GLFW;
 
 public class CurrentControls {
 
-    private final Hotkey throttle, stompThrottle, brake, clutch, shiftUp, shiftDown, nos,
-            blowTurbo, engineOn, left, right, lookBehind, ready, undo, sell, improve, quitRace;
+    private final Hotkey throttle, brake, clutch, shiftUp, shiftDown, nos,
+            turbo, engineOn, left, right, lookBehind, ready, undo, sell, improve, quitRace;
     private final Hotkey[] gears = new Hotkey[7];
 
     private static CurrentControls instance = null;
 
     protected CurrentControls() {
+
+
+//      If properties file is not found, default keycodes are used,
+//      otherwise the saved keycodes from keys.properties are loaded.
+
         throttle = new Hotkey("Throttle", "Throttle", GLFW.GLFW_KEY_W);
-        stompThrottle = new Hotkey("Stomp Throttle", "StompThrottle", GLFW.GLFW_KEY_S);
-        brake = new Hotkey("Brake", "Brake",GLFW.GLFW_KEY_S);
-        clutch = new Hotkey("Clutch", "Clutch",GLFW.GLFW_KEY_SPACE);
-        shiftUp = new Hotkey("Shift Up", "ShiftUp",GLFW.GLFW_KEY_UP);
-        shiftDown = new Hotkey("Shift Down", "ShiftDown",GLFW.GLFW_KEY_DOWN);
-        engineOn = new Hotkey("Engine On", "EngineOn",GLFW.GLFW_KEY_ENTER);
-        nos = new Hotkey("NOS", "NOS",GLFW.GLFW_KEY_E);
-        blowTurbo = new Hotkey("Blow Turbo", "BlowTurbo",GLFW.GLFW_KEY_Q);
+        brake = new Hotkey("Brake", "Brake", GLFW.GLFW_KEY_S);
+        nos = new Hotkey("NOS", "NOS", GLFW.GLFW_KEY_E);
+        turbo = new Hotkey("Blow Turbo", "BlowTurbo", GLFW.GLFW_KEY_Q);
+        lookBehind = new Hotkey("Look Behind", "LookBehind", GLFW.GLFW_KEY_R);
+        clutch = new Hotkey("Clutch", "Clutch", GLFW.GLFW_KEY_SPACE);
+        shiftUp = new Hotkey("Shift Up", "ShiftUp", GLFW.GLFW_KEY_UP);
+        shiftDown = new Hotkey("Shift Down", "ShiftDown", GLFW.GLFW_KEY_DOWN);
+        engineOn = new Hotkey("Engine On", "EngineOn", GLFW.GLFW_KEY_ENTER);
         left = new Hotkey("Left", "Left", GLFW.GLFW_KEY_A);
         right = new Hotkey("Right", "Right", GLFW.GLFW_KEY_D);
-        lookBehind = new Hotkey("Look Behind", "LookBehind", GLFW.GLFW_KEY_R);
-        ready = new Hotkey("Ready", "Ready",GLFW.GLFW_KEY_R);
-        undo = new Hotkey("Undo", "Undo",GLFW.GLFW_KEY_U);
-        sell = new Hotkey("Sell", "Sell",GLFW.GLFW_KEY_S);
-        improve = new Hotkey("Improve", "Improve",GLFW.GLFW_KEY_SPACE);
-        quitRace = new Hotkey("Quit Race", "QuitRace",GLFW.GLFW_KEY_ESCAPE);
+        ready = new Hotkey("Ready", "Ready", GLFW.GLFW_KEY_R, "CTRL: ready while chatting");
+        undo = new Hotkey("Undo", "Undo", GLFW.GLFW_KEY_U, "CTRL: redo");
+        sell = new Hotkey("Sell", "Sell", GLFW.GLFW_KEY_S, "CTRL: no prompt");
+        improve = new Hotkey("Improve", "Improve", GLFW.GLFW_KEY_SPACE);
+        quitRace = new Hotkey("Quit Race", "QuitRace", GLFW.GLFW_KEY_ESCAPE);
         gears[0] = new Hotkey("Gear 1", "Gear1", GLFW.GLFW_KEY_N);
         gears[1] = new Hotkey("Gear 2", "Gear2", GLFW.GLFW_KEY_U);
         gears[2] = new Hotkey("Gear 3", "Gear3", GLFW.GLFW_KEY_J);
@@ -45,16 +49,15 @@ public class CurrentControls {
     }
 
     public Hotkey[] getHotkeys() {
-        Hotkey[] allHotkeys = new Hotkey[] {throttle, stompThrottle, brake, clutch, shiftUp, shiftDown, nos, blowTurbo, engineOn, left, right, lookBehind, ready, undo, sell, improve, quitRace};
+        Hotkey[] allHotkeys = new Hotkey[] {throttle, brake, clutch, shiftUp, shiftDown, nos, turbo, engineOn, left, right, lookBehind, ready, undo, sell, improve, quitRace};
         Hotkey[] allControls = new Hotkey[allHotkeys.length + gears.length];
         System.arraycopy(allHotkeys, 0, allControls, 0, allHotkeys.length);
         System.arraycopy(gears, 0, allControls, allHotkeys.length, gears.length);
         return allControls;
     }
 
-    public Hotkey[] getHotkeySceneKeys() {
-        Hotkey[] allHotkeys = new Hotkey[] {throttle,brake,nos,blowTurbo,lookBehind,shiftUp,shiftDown,quitRace,ready,undo,sell,improve};
-        return allHotkeys;
+    public Hotkey[] getConfigurableHotkeys() {
+        return new Hotkey[] {throttle,brake,nos,turbo,lookBehind,shiftUp,shiftDown,quitRace,ready,undo,sell,improve};
     }
 
     public Hotkey getThrottle() {
@@ -63,14 +66,6 @@ public class CurrentControls {
 
     public void setThrottle(int keycode) {
         throttle.setKeycode(keycode);
-    }
-
-    public Hotkey getStompThrottle() {
-        return stompThrottle;
-    }
-
-    public void setStompThrottle(int keycode) {
-        stompThrottle.setKeycode(keycode);
     }
 
     public Hotkey getBrake() {
@@ -114,11 +109,11 @@ public class CurrentControls {
     }
 
     public Hotkey getBlowTurbo() {
-        return blowTurbo;
+        return turbo;
     }
 
     public void setBlowTurbo(int keycode) {
-        blowTurbo.setKeycode(keycode);
+        turbo.setKeycode(keycode);
     }
 
     public Hotkey getEngineOn() {

@@ -15,7 +15,7 @@ public class HotkeyStorage {
         try (FileInputStream in = new FileInputStream(PROPERTIES_FILE)) {
             properties.load(in);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No keys.properties file found. Creating new with defaults.");
         }
     }
 
@@ -39,19 +39,11 @@ public class HotkeyStorage {
         return Integer.parseInt(properties.getProperty(key, "-1"));
     }
 
-    public synchronized int getKeycodeFromFile(String key, int defaultKeycode) {
-        int keycode = Integer.parseInt(properties.getProperty(key, "-1"));
-        if (keycode == -1) {
-            setHotkey(key, defaultKeycode);
-        }
-        return keycode;
-    }
-
     private synchronized void saveProperties() {
         try (FileOutputStream out = new FileOutputStream(PROPERTIES_FILE)) {
             properties.store(out, null);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to save properties file", e.getCause());
         }
     }
 }

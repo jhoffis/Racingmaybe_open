@@ -18,7 +18,6 @@ import scenes.adt.Scene;
 import settings_and_logging.hotkeys.CurrentControls;
 import settings_and_logging.hotkeys.Hotkey;
 
-import java.util.Arrays;
 
 public class HotkeysScene extends Scene {
 
@@ -28,7 +27,7 @@ public class HotkeysScene extends Scene {
 	private final UIWindowInfo gobackWindow, labelWindow;
 	private final UIButton<?> gobackBtn, resetBtn;
 	private final UILabel ctrlExplanation = new UILabel("Some hotkeys have CTRL which is a special alternative. For instance, for selling you can skip being prompted by holding CTRL.");
-	private String[] hotkeyLabels;
+	private final Hotkey[] hotkeys;
 
 
 	private final CurrentControls controls;
@@ -37,7 +36,7 @@ public class HotkeysScene extends Scene {
 		super(topbar, Scenes.HOTKEY_OPTIONS);
 		this.controls = controls;
 		controls.refresh();
-		hotkeyLabels = Arrays.stream(controls.getHotkeySceneKeys()).map(Hotkey::getLabel).toArray(String[]::new);
+		hotkeys = controls.getConfigurableHotkeys();
 		float spacer = topbar.getHeight() * 0.5f;
 		gobackWindow = createWindow(spacer, spacer, Window.WIDTH, 1.5f * topbar.getHeight());
 
@@ -58,7 +57,7 @@ public class HotkeysScene extends Scene {
 		});
 		add(resetBtn);
 
-		textFields = new UITextField[hotkeyLabels.length];
+		textFields = new UITextField[hotkeys.length];
 		for (int i = 0; i < textFields.length; i++) {
 			var height = gobackWindow.height * .5f;
 			int a = i;
@@ -98,7 +97,7 @@ public class HotkeysScene extends Scene {
 	}
 
 	public void updateTextFieldName(int a) {
-		Hotkey hotkey = controls.getHotkeys()[a];
+		Hotkey hotkey = controls.getConfigurableHotkeys()[a];
 		String str = hotkey.getKeyName();
 		textFields[a].setPretext(str);
 		textFields[a].reset();
@@ -133,6 +132,7 @@ public class HotkeysScene extends Scene {
 			if (focusedTextField != null) {
 				this.keycode = keycode;
 				String keyName = Hotkey.getKeyNameFromKeyCode(keycode);
+				System.out.println("Keycode: " + keycode + " Keyname: " + keyName);
 				focusedTextField.setText(keyName);
 			}
 		}
@@ -198,9 +198,9 @@ public class HotkeysScene extends Scene {
 
 		if (labelWindow.begin(ctx, stack, 15, 0, 0, 0)) {
 			var height = 1.015f*textFields[0].getWindow().height;
-			for (var hotkeyLabel : hotkeyLabels) {
+			for (var hotkey : hotkeys) {
 				Nuklear.nk_layout_row_dynamic(ctx, height, 1);
-				Nuklear.nk_label(ctx, hotkeyLabel, Nuklear.NK_TEXT_ALIGN_RIGHT | Nuklear.NK_TEXT_ALIGN_MIDDLE);
+				Nuklear.nk_label(ctx, hotkey.getPrefixedLabel(), Nuklear.NK_TEXT_ALIGN_RIGHT | Nuklear.NK_TEXT_ALIGN_MIDDLE);
 			}
 		}
 		Nuklear.nk_end(ctx);
