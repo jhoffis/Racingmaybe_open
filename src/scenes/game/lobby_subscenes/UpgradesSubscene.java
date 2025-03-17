@@ -36,9 +36,8 @@ import player_local.TilePiece;
 import scenes.SceneHandler;
 import scenes.Scenes;
 import scenes.adt.Subscene;
-import scenes.regular.HotkeysScene;
 import settings_and_logging.RSet;
-import settings_and_logging.hotkeys.CurrentControls;
+import settings_and_logging.hotkeys.Controls;
 
 import java.util.HashMap;
 import java.util.List;
@@ -150,7 +149,7 @@ public class UpgradesSubscene extends Subscene {
     private float controllerCursorX, controllerCursorY;
     private long controllerScroll;
 	private boolean hasBought;
-    private final CurrentControls controls = CurrentControls.getInstance();
+
     public UpgradesSubscene(int sceneIndex) {
         super(sceneIndex);
 
@@ -310,8 +309,8 @@ public class UpgradesSubscene extends Subscene {
         }
         press();
 
-        improveTileBtn.tooltip = "  Hotkey: Press " + controls.getImprove().getKeyName() + " while hovering mouse over tile";
-        sellTileBtn.tooltip = "  Hotkey: Press " + controls.getSell().getKeyName() + " while hovering mouse over tile";
+        improveTileBtn.tooltip = "  Hotkey: Press " + Controls.improve.getKeyName() + " while hovering mouse over tile";
+        sellTileBtn.tooltip = "  Hotkey: Press " + Controls.sell.getKeyName() + " while hovering mouse over tile";
 
         if (canAffordSomething(com.player) == null) {
             moneyAni.setCurrentFrame(moneyAni.getFramesAmount() - 1);
@@ -1129,17 +1128,17 @@ public class UpgradesSubscene extends Subscene {
             if (!com.resigned && com.player.role < Player.COMMENTATOR) {
                 if (currentUpgrade != null) {
                     if (currentUpgrade.mouseAbove && currentUpgrade.placed) {
-                        if (keycode == controls.getImprove().getKeycode()) {
+                        if (keycode == Controls.improve.getKeycode()) {
                             improveTileBtn.runPressedAction();
                             return;
                         }
-                        if (keycode == controls.getSell().getKeycode()) {
+                        if (keycode == Controls.sell.getKeycode()) {
                             sellTileBtn.runPressedAction();
                             return;
                         }
                     }
                 }
-                if (keycode == controls.getUndo().getKeycode()) {
+                if (keycode == Controls.undo.getKeycode()) {
                     if (InputHandler.CONTROL_DOWN)
                         redoBtn.runPressedAction();
                     else

@@ -3,14 +3,12 @@ package main;
 import engine.graphics.ui.UIColors;
 import engine.io.InputHandler;
 import engine.utils.TwoTypes;
-import game_modes.SingleplayerChallenges;
 import player_local.upgrades.TileNames;
 import player_local.upgrades.Upgrade;
 import player_local.upgrades.UpgradeGeneral;
 import scenes.game.Race;
-import scenes.regular.HotkeysScene;
 import player_local.car.Rep;
-import settings_and_logging.hotkeys.CurrentControls;
+import settings_and_logging.hotkeys.Controls;
 
 public class Texts {
 
@@ -342,8 +340,7 @@ public class Texts {
 //	}
 
     public static String ready(boolean ready, int length) {
-        CurrentControls controls = CurrentControls.getInstance();
-        return (ready ? "Unr" : "R") + "eady? " + length + "m (" + (InputHandler.CONTROLLER_EFFECTIVELY ? "X" : controls.getReady().getKeyName()) + ")";
+        return (ready ? "Unr" : "R") + "eady? " + length + "m (" + (InputHandler.CONTROLLER_EFFECTIVELY ? "X" : Controls.INSTANCE.ready.getKeycode()) + ")";
     }
 
 

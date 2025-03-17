@@ -5,12 +5,10 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.function.Consumer;
 
-import com.codedisaster.steamworks.SteamAPI;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -45,7 +43,6 @@ import scenes.game.Lobby;
 import scenes.game.Race;
 import scenes.regular.*;
 import settings_and_logging.RSet;
-import settings_and_logging.hotkeys.CurrentControls;
 
 import javax.swing.*;
 
@@ -339,8 +336,6 @@ public class Main {
 				}
 			};
 
-			CurrentControls controls = CurrentControls.getInstance();
-
 			if (!TEST_GRAPHICS) {
 				scenes[Scenes.MAIN_MENU] = new MainMenuScene(createNewSingleplayerGameAction, regularTopbar);
 				scenes[Scenes.SINGLEPLAYER] = new SingleplayerScene(createNewSingleplayerGameAction, regularTopbar);
@@ -351,7 +346,7 @@ public class Main {
 				var replay = new ReplayVisual(((Lobby) scenes[Scenes.LOBBY]).getUpgradesSubscene());
 				scenes[Scenes.REPLAYLIST] = new ReplayListScene(transparentTopbar, replay);
 				scenes[Scenes.OPTIONS] = new OptionsScene(regularTopbar, countdownAction);
-				scenes[Scenes.HOTKEY_OPTIONS] = new HotkeysScene(regularTopbar, controls);
+				scenes[Scenes.HOTKEY_OPTIONS] = new HotkeysScene(regularTopbar);
 				scenes[Scenes.DESIGNER_NOTES] = new DesignerNotesScene(regularTopbar, countdownAction);
 				scenes[Scenes.JOINING] = new JoiningScene((Lobby) scenes[Scenes.LOBBY], transparentTopbar);
 				scenes[Scenes.MULTIPLAYER] = new MultiplayerScene(regularTopbar, initMovingIntoALobby);

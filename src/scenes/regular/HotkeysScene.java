@@ -15,7 +15,7 @@ import main.Features;
 import main.Texts;
 import scenes.Scenes;
 import scenes.adt.Scene;
-import settings_and_logging.hotkeys.CurrentControls;
+import settings_and_logging.hotkeys.Controls;
 import settings_and_logging.hotkeys.Hotkey;
 
 
@@ -27,16 +27,10 @@ public class HotkeysScene extends Scene {
 	private final UIWindowInfo gobackWindow, labelWindow;
 	private final UIButton<?> gobackBtn, resetBtn;
 	private final UILabel ctrlExplanation = new UILabel("Some hotkeys have CTRL which is a special alternative. For instance, for selling you can skip being prompted by holding CTRL.");
-	private final Hotkey[] hotkeys;
+	private final Hotkey[] hotkeys = Controls.getConfigurableHotkeys();
 
-
-	private final CurrentControls controls;
-
-	public HotkeysScene(RegularTopbar topbar, CurrentControls controls) {
+	public HotkeysScene(RegularTopbar topbar) {
 		super(topbar, Scenes.HOTKEY_OPTIONS);
-		this.controls = controls;
-		controls.refresh();
-		hotkeys = controls.getConfigurableHotkeys();
 		float spacer = topbar.getHeight() * 0.5f;
 		gobackWindow = createWindow(spacer, spacer, Window.WIDTH, 1.5f * topbar.getHeight());
 
@@ -50,7 +44,7 @@ public class HotkeysScene extends Scene {
 		resetBtn = new UIButton<>("Reset", UIColors.DARKGRAY);
 		resetBtn.setPressedAction(() -> {
 			audio.play(SfxTypes.REGULAR_PRESS);
-			for (Hotkey hotkey : controls.getHotkeys()) {
+			for (Hotkey hotkey : Controls.getHotkeys()) {
 				hotkey.resetToDefault();
 			}
 			updateGenerally(null);
@@ -97,14 +91,14 @@ public class HotkeysScene extends Scene {
 	}
 
 	public void updateTextFieldName(int a) {
-		Hotkey hotkey = controls.getConfigurableHotkeys()[a];
+		Hotkey hotkey = Controls.getConfigurableHotkeys()[a];
 		String str = hotkey.getKeyName();
 		textFields[a].setPretext(str);
 		textFields[a].reset();
 	}
 
 	private Hotkey getHotkey(int a) {
-		return controls.getHotkeys()[a];
+		return Controls.getHotkeys()[a];
 	}
 
 	@Override

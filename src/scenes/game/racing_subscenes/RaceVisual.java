@@ -43,26 +43,22 @@ import engine.io.Window;
 import engine.math.Vec2;
 import engine.math.Vec3;
 import main.Features;
-import main.Main;
 import main.ResourceHandler;
 import player_local.Player;
 import player_local.car.Car;
-import player_local.car.CarModel;
 import player_local.car.CarStats;
 import player_local.car.Rep;
 import scenes.SceneHandler;
 import scenes.Scenes;
 import scenes.adt.Visual;
 import scenes.game.Race;
-import scenes.regular.HotkeysScene;
-import settings_and_logging.hotkeys.CurrentControls;
+import settings_and_logging.hotkeys.Controls;
 
 public class RaceVisual extends Visual {
 
 	private final int whiteBound = 20000;
 	private int mouseDelay;
 
-	private final CurrentControls controls = CurrentControls.getInstance();
 	private Race race;
 	private Car[] opponents;
 	private Car myCar;
@@ -318,16 +314,15 @@ public class RaceVisual extends Visual {
 
 		var stats = player.car.getStats();
 		var dogbox = stats.stats[Rep.throttleShift] == 0;
-		controls.refresh();
-		hintsLabel.setText("Drive: " + controls.getThrottle().getKeyName() + "  " + "Shift: "
-				+ (dogbox ? "Release " + controls.getThrottle().getKeyName() + " and " : "")
+		hintsLabel.setText("Drive: " + Controls.throttle.getKeyName() + "  " + "Shift: "
+				+ (dogbox ? "Release " + Controls.throttle.getKeyName() + " and " : "")
 				+ (stats.sequentialShift
-						? (!dogbox ? "C" : "c") + "lick gear lever or " + controls.getShiftUp().getKeyName() + "/"
-								+ controls.getShiftDown().getKeyName()
+						? (!dogbox ? "C" : "c") + "lick gear lever or " + Controls.shiftUp.getKeyName() + "/"
+								+ Controls.shiftDown.getKeyName()
 						: (!dogbox ? "D" : "d") + "rag gear lever")
-				+ (stats.nosBottleAmountLeft != 0 ? "  NOS: " + controls.getNos().getKeyName() : "")
-				+ (stats.stats[Rep.bar] != 0 ? "  Turbo: " + controls.getBlowTurbo().getKeyName() : "") + "  Quit: "
-				+ controls.getQuitRace().getKeyName());
+				+ (stats.nosBottleAmountLeft != 0 ? "  NOS: " + Controls.nos.getKeyName() : "")
+				+ (stats.stats[Rep.bar] != 0 ? "  Turbo: " + Controls.turbo.getKeyName() : "") + "  Quit: "
+				+ Controls.quitRace.getKeyName());
 		lookBehind = false;
 		this.lifes = lifes;
 		spdIncActual = 0;

@@ -46,7 +46,7 @@ import scenes.game.lobby_subscenes.UpgradesSubscene;
 import scenes.game.racing_subscenes.FinishVisual;
 import scenes.game.racing_subscenes.RaceVisual;
 import scenes.game.racing_subscenes.WinVisual;
-import settings_and_logging.hotkeys.CurrentControls;
+import settings_and_logging.hotkeys.Controls;
 
 /**
  * Kj�r thread p� lobby n�r du skal tilbake
@@ -107,8 +107,6 @@ public class Race extends Scene {
 	private float gearboxControllerDelay;
 
 	private long controllerScroll;
-
-	private final CurrentControls controls = CurrentControls.getInstance();
 
 	public Race(TransparentTopbar topbar, LobbyTopbar winTopbar) {
 		super(topbar, Scenes.RACE);
@@ -886,7 +884,7 @@ public class Race extends Scene {
 			return;
 		}
 
-		if (controls.getThrottle().getKeycode() == key) {
+		if (Controls.throttle.getKeycode() == key) {
 			car.nos(action != GLFW.GLFW_RELEASE);
 		}
 
@@ -894,7 +892,7 @@ public class Race extends Scene {
 			/*
 			 * PRESS
 			 */
-			if (controls.getThrottle().getKeycode() == key) {
+			if (Controls.throttle.getKeycode() == key) {
 				if (!car.getRep().is(Rep.manualClutch)
 						&& (running || !car.getRep().is(Rep.twoStep) && (raceLights > GameMode.raceLightsCanStartDriving || Main.DEBUG))) {
 					car.clutch(false);
@@ -902,19 +900,19 @@ public class Race extends Scene {
 
 				raceVisual.getGearbox().updateThrottleStats(true);
 				car.throttle(true, true);
-			} else if (controls.getBrake().getKeycode() == key) {
+			} else if (Controls.brake.getKeycode() == key) {
 				car.brake(true);
-			} else if (controls.getClutch().getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
+			} else if (Controls.clutch.getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
 				car.clutch(true);
-			} else if (controls.getBlowTurbo().getKeycode() == key) {
+			} else if (Controls.turbo.getKeycode() == key) {
 				car.blowTurbo(true);
-			} else if (!com.isSingleplayer() && key == controls.getLookBehind().getKeycode()) {
+			} else if (!com.isSingleplayer() && key == Controls.lookBehind.getKeycode()) {
 				raceVisual.lookBehind = true;
 			} else if (car.getStats().sequentialShift) {
-				if (controls.getShiftUp().getKeycode() == key) {
+				if (Controls.shiftUp.getKeycode() == key) {
 					car.shiftUp(System.currentTimeMillis());
 				}
-				if (controls.getShiftDown().getKeycode() == key) {
+				if (Controls.shiftDown.getKeycode() == key) {
 					car.shiftDown(System.currentTimeMillis());
 				}
 			}
@@ -922,7 +920,7 @@ public class Race extends Scene {
 			/*
 			 * RELEASE
 			 */
-			if (controls.getThrottle().getKeycode() == key) {
+			if (Controls.throttle.getKeycode() == key) {
 				if (!car.getRep().is(Rep.manualClutch) && ((raceLights > GameMode.raceLightsCanStartDriving || Main.DEBUG) || running)) {
 					car.clutch(true);
 				}
@@ -931,16 +929,16 @@ public class Race extends Scene {
 				raceVisual.getGearbox().updateThrottleStats(false);
 				if (!running)
 					raceVisual.setWarning("");
-			} else if (controls.getBrake().getKeycode() == key) {
+			} else if (Controls.brake.getKeycode() == key) {
 				car.brake(false);
-			} else if (controls.getClutch().getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
+			} else if (Controls.clutch.getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
 				car.clutch(false);
-			} else if (controls.getBlowTurbo().getKeycode() == key) {
+			} else if (Controls.turbo.getKeycode() == key) {
 				car.blowTurbo(false);
-			} else if (key == controls.getLookBehind().getKeycode()) {
+			} else if (key == Controls.lookBehind.getKeycode()) {
 				raceVisual.lookBehind = false;
 			}
-			if (key == controls.getQuitRace().getKeycode()) {
+			if (key == Controls.quitRace.getKeycode()) {
 				finishRace(CHEATED_GAVE_IN);
 			}
 

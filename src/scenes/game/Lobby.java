@@ -59,7 +59,7 @@ import scenes.adt.Subscene;
 import scenes.game.lobby_subscenes.CarChoiceSubscene;
 import scenes.game.lobby_subscenes.UpgradesSubscene;
 import settings_and_logging.RSet;
-import settings_and_logging.hotkeys.CurrentControls;
+import settings_and_logging.hotkeys.Controls;
 
 /**
  * Visualization of a game
@@ -865,7 +865,6 @@ public class Lobby extends Scene {
 
 	@Override
 	public void keyInput(int keycode, int action) {
-		CurrentControls controls = CurrentControls.getInstance();
 		game.keyInput(keycode, action);
 
 		if (GameInfo.bonusModal.isVisible()) {
@@ -876,7 +875,7 @@ public class Lobby extends Scene {
 		if (chatKeyInput(keycode, action)) {
 
 			if (InputHandler.CONTROL_DOWN) {
-				if (keycode == controls.getReady().getKeycode()) {
+				if (keycode == Controls.ready.getKeycode()) {
 					readyBtn.runPressedAction();
 				} else if (keycode == GLFW.GLFW_KEY_V) {
 					var c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -913,7 +912,7 @@ public class Lobby extends Scene {
 				// Downstroke for quicker input
 				generalHoveredButtonNavigation(readyBtn, keycode);
 
-				if (keycode == controls.getReady().getKeycode()) {
+				if (keycode == Controls.ready.getKeycode()) {
 					if (Main.DEBUG) {
 						readyBtn.setEnabled(true);
 					}
