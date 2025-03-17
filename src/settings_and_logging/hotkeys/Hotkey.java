@@ -1,38 +1,24 @@
 package settings_and_logging.hotkeys;
 
-import engine.graphics.ui.UITextField;
 import org.lwjgl.glfw.GLFW;
 
 public class Hotkey {
-    private final String label;
-    private int keycode;
-    private final UITextField textField;
-    private final String configLabel;
-    private int defaultKey;
-    private String configPrefix;
-
-    public Hotkey(String displayLabel, String configLabel, UITextField textField) {
-        this.label = displayLabel;
-        this.configLabel = configLabel;
-        this.textField = textField;
-        this.configPrefix = null;
-        loadKeycode();
-    }
+    public final String label;
+    public final String configLabel;
+    public String configPrefix;
+    public volatile int keycode;
+    public int defaultKey;
 
     public Hotkey(String displayLabel, String configLabel, int defaultKeycode) {
-        this(displayLabel, configLabel, null);
+        this.label = displayLabel;
+        this.configLabel = configLabel;
         this.defaultKey = defaultKeycode;
         this.configPrefix = null;
     }
 
     public Hotkey(String displayLabel, String configLabel, int defaultKeycode, String configPrefix) {
-        this(displayLabel, configLabel, null);
-        this.defaultKey = defaultKeycode;
+        this(displayLabel, configLabel, defaultKeycode);
         this.configPrefix = configPrefix;
-    }
-
-    public String getLabel() {
-        return label;
     }
 
     public String getPrefixedLabel() {
