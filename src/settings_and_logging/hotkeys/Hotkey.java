@@ -138,9 +138,4 @@ public class Hotkey {
         Hotkey hotkey = (Hotkey) obj;
         return this.getKeycode() == hotkey.keycode;
     }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(keycode);
-    }
 }
