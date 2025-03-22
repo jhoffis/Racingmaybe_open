@@ -340,7 +340,7 @@ public class Texts {
 //	}
 
     public static String ready(boolean ready, int length) {
-        return (ready ? "Unr" : "R") + "eady? " + length + "m (" + (InputHandler.CONTROLLER_EFFECTIVELY ? "X" : Controls.INSTANCE.ready.getKeycode()) + ")";
+        return (ready ? "Unr" : "R") + "eady? " + length + "m (" + (InputHandler.CONTROLLER_EFFECTIVELY ? "X" : Controls.ready.getKeyName()) + ")";
     }
 
 

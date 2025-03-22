@@ -1128,17 +1128,17 @@ public class UpgradesSubscene extends Subscene {
             if (!com.resigned && com.player.role < Player.COMMENTATOR) {
                 if (currentUpgrade != null) {
                     if (currentUpgrade.mouseAbove && currentUpgrade.placed) {
-                        if (keycode == Controls.improve.getKeycode()) {
+                        if (Controls.improve.equals(keycode)) {
                             improveTileBtn.runPressedAction();
                             return;
                         }
-                        if (keycode == Controls.sell.getKeycode()) {
+                        if (Controls.sell.equals(keycode)) {
                             sellTileBtn.runPressedAction();
                             return;
                         }
                     }
                 }
-                if (keycode == Controls.undo.getKeycode()) {
+                if (Controls.undo.equals(keycode)) {
                     if (InputHandler.CONTROL_DOWN)
                         redoBtn.runPressedAction();
                     else

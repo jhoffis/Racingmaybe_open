@@ -1,4 +1,3 @@
-// src/settings_and_logging/hotkeys/Controls.java
 package settings_and_logging.hotkeys;
 
 import org.lwjgl.glfw.GLFW;

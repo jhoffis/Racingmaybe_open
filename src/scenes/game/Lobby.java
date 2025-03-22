@@ -875,7 +875,7 @@ public class Lobby extends Scene {
 		if (chatKeyInput(keycode, action)) {
 
 			if (InputHandler.CONTROL_DOWN) {
-				if (keycode == Controls.ready.getKeycode()) {
+				if (Controls.ready.equals(keycode)) {
 					readyBtn.runPressedAction();
 				} else if (keycode == GLFW.GLFW_KEY_V) {
 					var c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -912,7 +912,7 @@ public class Lobby extends Scene {
 				// Downstroke for quicker input
 				generalHoveredButtonNavigation(readyBtn, keycode);
 
-				if (keycode == Controls.ready.getKeycode()) {
+				if (Controls.ready.equals(keycode)) {
 					if (Main.DEBUG) {
 						readyBtn.setEnabled(true);
 					}

@@ -37,20 +37,16 @@ public class Hotkey {
 
     public void setKeycode(int keycode) {
         this.keycode = keycode;
-        saveKeycode();
+        HotkeyStorage storage = HotkeyStorage.getInstance();
+        storage.setHotkey(configLabel, keycode);
     }
 
-    public void loadKeycode() {
+    private void loadKeycode() {
         HotkeyStorage storage = HotkeyStorage.getInstance();
         this.keycode = storage.getKeycodeFromFile(this.configLabel);
         if (keycode == -1) {
             resetToDefault();
         }
-    }
-
-    private void saveKeycode() {
-        HotkeyStorage storage = HotkeyStorage.getInstance();
-        storage.setHotkey(configLabel, keycode);
     }
 
     public String getKeyName() {
@@ -61,8 +57,7 @@ public class Hotkey {
     }
 
     public void resetToDefault() {
-        keycode = defaultKey;
-        saveKeycode();
+        this.setKeycode(defaultKey);
     }
 
     public static String getKeyNameFromKeyCode(int keycode) {
@@ -127,5 +122,25 @@ public class Hotkey {
             case GLFW.GLFW_KEY_LEFT_ALT, GLFW.GLFW_KEY_RIGHT_ALT -> "Alt";
             default -> "Unknown";
         };
+    }
+
+    public boolean equals(int keycode) {
+        return this.keycode == keycode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Integer) {
+            return this.getKeycode() == (Integer) obj;
+        }
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Hotkey hotkey = (Hotkey) obj;
+        return this.getKeycode() == hotkey.keycode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(keycode);
     }
 }

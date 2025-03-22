@@ -884,7 +884,7 @@ public class Race extends Scene {
 			return;
 		}
 
-		if (Controls.throttle.getKeycode() == key) {
+		if (Controls.throttle.equals(key)) {
 			car.nos(action != GLFW.GLFW_RELEASE);
 		}
 
@@ -892,7 +892,7 @@ public class Race extends Scene {
 			/*
 			 * PRESS
 			 */
-			if (Controls.throttle.getKeycode() == key) {
+			if (Controls.throttle.equals(key)) {
 				if (!car.getRep().is(Rep.manualClutch)
 						&& (running || !car.getRep().is(Rep.twoStep) && (raceLights > GameMode.raceLightsCanStartDriving || Main.DEBUG))) {
 					car.clutch(false);
@@ -900,19 +900,19 @@ public class Race extends Scene {
 
 				raceVisual.getGearbox().updateThrottleStats(true);
 				car.throttle(true, true);
-			} else if (Controls.brake.getKeycode() == key) {
+			} else if (Controls.brake.equals(key)) {
 				car.brake(true);
-			} else if (Controls.clutch.getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
+			} else if (Controls.clutch.equals(key) && car.getRep().is(Rep.manualClutch)) {
 				car.clutch(true);
-			} else if (Controls.turbo.getKeycode() == key) {
+			} else if (Controls.turbo.equals(key)) {
 				car.blowTurbo(true);
-			} else if (!com.isSingleplayer() && key == Controls.lookBehind.getKeycode()) {
+			} else if (Controls.lookBehind.equals(key) && !com.isSingleplayer()) {
 				raceVisual.lookBehind = true;
 			} else if (car.getStats().sequentialShift) {
-				if (Controls.shiftUp.getKeycode() == key) {
+				if (Controls.shiftUp.equals(key)) {
 					car.shiftUp(System.currentTimeMillis());
 				}
-				if (Controls.shiftDown.getKeycode() == key) {
+				if (Controls.shiftDown.equals(key)) {
 					car.shiftDown(System.currentTimeMillis());
 				}
 			}
@@ -920,7 +920,7 @@ public class Race extends Scene {
 			/*
 			 * RELEASE
 			 */
-			if (Controls.throttle.getKeycode() == key) {
+			if (Controls.throttle.equals(key)) {
 				if (!car.getRep().is(Rep.manualClutch) && ((raceLights > GameMode.raceLightsCanStartDriving || Main.DEBUG) || running)) {
 					car.clutch(true);
 				}
@@ -929,16 +929,16 @@ public class Race extends Scene {
 				raceVisual.getGearbox().updateThrottleStats(false);
 				if (!running)
 					raceVisual.setWarning("");
-			} else if (Controls.brake.getKeycode() == key) {
+			} else if (Controls.brake.equals(key)) {
 				car.brake(false);
-			} else if (Controls.clutch.getKeycode() == key && car.getRep().is(Rep.manualClutch)) {
+			} else if (Controls.clutch.equals(key) && car.getRep().is(Rep.manualClutch)) {
 				car.clutch(false);
-			} else if (Controls.turbo.getKeycode() == key) {
+			} else if (Controls.turbo.equals(key)) {
 				car.blowTurbo(false);
-			} else if (key == Controls.lookBehind.getKeycode()) {
+			} else if (Controls.lookBehind.equals(key)) {
 				raceVisual.lookBehind = false;
 			}
-			if (key == Controls.quitRace.getKeycode()) {
+			if (Controls.quitRace.equals(key)) {
 				finishRace(CHEATED_GAVE_IN);
 			}
 
