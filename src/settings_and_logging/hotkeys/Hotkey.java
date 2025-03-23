@@ -3,32 +3,37 @@ package settings_and_logging.hotkeys;
 import org.lwjgl.glfw.GLFW;
 
 public class Hotkey {
-    public final String label;
-    public final String configLabel;
-    public String configPrefix;
+    private final String propertyKey;
+    public final String name;
+    public String prefix;
     public volatile int keycode;
     public int defaultKey;
 
-    public Hotkey(String displayLabel, String configLabel, int defaultKeycode) {
-        this.label = displayLabel;
-        this.configLabel = configLabel;
+    public Hotkey(String label, int defaultKeycode) {
+        this.name = label;
         this.defaultKey = defaultKeycode;
-        this.configPrefix = null;
+        // replace all non-alphanumeric characters with empty string for storing in the properties file
+        this.propertyKey = this.name.replaceAll("[^a-zA-Z0-9]", "");
     }
 
-    public Hotkey(String displayLabel, String configLabel, int defaultKeycode, String configPrefix) {
-        this(displayLabel, configLabel, defaultKeycode);
-        this.configPrefix = configPrefix;
+    public Hotkey(String prefixed, int defaultKeycode, String prefix) {
+        this(prefixed, defaultKeycode);
+        this.prefix = prefix;
     }
 
-    public String getPrefixedLabel() {
-        return (configPrefix == null ? "" : "(" + configPrefix + ") ") + label;
+    public String getPrefixedName() {
+        if (prefix == null) {
+            return name;
+        } else {
+            return "(" + prefix + ") " + name;
+        }
     }
 
     public int getKeycode() {
         if (keycode == -1) {
             loadKeycode();
         }
+        // might be worth debug logging this, for possible non recognized keys
         if (keycode == -1) {
             keycode = defaultKey;
         }
@@ -37,13 +42,17 @@ public class Hotkey {
 
     public void setKeycode(int keycode) {
         this.keycode = keycode;
+        saveKeycode();
+    }
+
+    private void saveKeycode() {
         HotkeyStorage storage = HotkeyStorage.getInstance();
-        storage.setHotkey(configLabel, keycode);
+        storage.setHotkey(this.propertyKey, this.keycode);
     }
 
     private void loadKeycode() {
         HotkeyStorage storage = HotkeyStorage.getInstance();
-        this.keycode = storage.getKeycodeFromFile(this.configLabel);
+        this.keycode = storage.getKeycodeFromFile(this.propertyKey);
         if (keycode == -1) {
             resetToDefault();
         }
@@ -53,16 +62,18 @@ public class Hotkey {
         if (this.keycode == -1 || this.keycode == 0) {
             resetToDefault();
         }
-        return getKeyNameFromKeyCode(this.keycode);
+        return keycodeToKeyname(this.keycode);
     }
 
     public void resetToDefault() {
         this.setKeycode(defaultKey);
     }
 
-    public static String getKeyNameFromKeyCode(int keycode) {
+    public static String keycodeToKeyname(int keycode) {
+
         int scancode = GLFW.glfwGetKeyScancode(keycode);
         String keyName = GLFW.glfwGetKeyName(keycode, scancode);
+
         if (keyName == null) {
             keyName = getFallbackKeyName(keycode);
         }

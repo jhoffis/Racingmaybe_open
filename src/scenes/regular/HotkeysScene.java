@@ -125,8 +125,7 @@ public class HotkeysScene extends Scene {
 			generalHoveredButtonNavigation(gobackBtn, keycode);
 			if (focusedTextField != null) {
 				this.keycode = keycode;
-				String keyName = Hotkey.getKeyNameFromKeyCode(keycode);
-				System.out.println("Keycode: " + keycode + " Keyname: " + keyName);
+				String keyName = Hotkey.keycodeToKeyname(keycode);
 				focusedTextField.setText(keyName);
 			}
 		}
@@ -194,7 +193,7 @@ public class HotkeysScene extends Scene {
 			var height = 1.015f*textFields[0].getWindow().height;
 			for (var hotkey : hotkeys) {
 				Nuklear.nk_layout_row_dynamic(ctx, height, 1);
-				Nuklear.nk_label(ctx, hotkey.getPrefixedLabel(), Nuklear.NK_TEXT_ALIGN_RIGHT | Nuklear.NK_TEXT_ALIGN_MIDDLE);
+				Nuklear.nk_label(ctx, hotkey.getPrefixedName(), Nuklear.NK_TEXT_ALIGN_RIGHT | Nuklear.NK_TEXT_ALIGN_MIDDLE);
 			}
 		}
 		Nuklear.nk_end(ctx);
