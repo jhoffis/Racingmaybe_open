@@ -66,7 +66,7 @@ public class HotkeysScene extends Scene {
 					Window.WIDTH * 0.3f,
 					height);
 			textFields[a].specialSetText = () -> {
-				updateKeys(a, false);
+				updateKeys(a);
 				updateTextFieldName(a);
 			};
 			updateTextFieldName(a);
@@ -79,15 +79,12 @@ public class HotkeysScene extends Scene {
 		);
 	}
 
-	private void updateKeys(int a, boolean justRefresh) {
+	private void updateKeys(int a) {
 		if (keycode == 0) {
 			return;
 		}
 		Hotkey hotkey = getHotkey(a);
-
-		if (!justRefresh) {
-			hotkey.setKeycode(keycode);
-		}
+		hotkey.setKeycode(keycode);
 	}
 
 	public void updateTextFieldName(int a) {
