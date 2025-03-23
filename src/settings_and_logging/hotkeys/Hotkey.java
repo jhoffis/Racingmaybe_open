@@ -3,17 +3,19 @@ package settings_and_logging.hotkeys;
 import org.lwjgl.glfw.GLFW;
 
 public class Hotkey {
-    private final String propertyKey;
+
+    private volatile int keycode = -1;
+    public final int defaultKey;
     public final String name;
     public String prefix;
-    public volatile int keycode;
-    public int defaultKey;
+    private final String propertyKey;
 
     public Hotkey(String label, int defaultKeycode) {
         this.name = label;
         this.defaultKey = defaultKeycode;
         // replace all non-alphanumeric characters with empty string for storing in the properties file
         this.propertyKey = this.name.replaceAll("[^a-zA-Z0-9]", "");
+        this.loadKeycode();
     }
 
     public Hotkey(String prefixed, int defaultKeycode, String prefix) {
@@ -33,11 +35,19 @@ public class Hotkey {
         if (keycode == -1) {
             loadKeycode();
         }
-        // might be worth debug logging this, for possible non recognized keys
+        // might be worth logging here, for possible non recognized keycodes in config
         if (keycode == -1) {
             keycode = defaultKey;
         }
         return keycode;
+    }
+
+
+    public String getKeyName() {
+        if (this.keycode == -1 || this.keycode == 0) {
+            resetToDefault();
+        }
+        return keycodeToKeyname(this.keycode);
     }
 
     public void setKeycode(int keycode) {
@@ -56,13 +66,6 @@ public class Hotkey {
         if (keycode == -1) {
             resetToDefault();
         }
-    }
-
-    public String getKeyName() {
-        if (this.keycode == -1 || this.keycode == 0) {
-            resetToDefault();
-        }
-        return keycodeToKeyname(this.keycode);
     }
 
     public void resetToDefault() {
