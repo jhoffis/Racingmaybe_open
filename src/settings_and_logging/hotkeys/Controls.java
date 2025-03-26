@@ -21,6 +21,7 @@ public enum Controls {
     public static final Hotkey sell = new Hotkey("Sell", GLFW.GLFW_KEY_S, "CTRL: no prompt");
     public static final Hotkey improve = new Hotkey("Improve", GLFW.GLFW_KEY_SPACE);
     public static final Hotkey quitRace = new Hotkey("Quit Race", GLFW.GLFW_KEY_ESCAPE);
+    public static final Hotkey beep = new Hotkey("Beep", GLFW.GLFW_KEY_H);
 
     public static Hotkey[] getHotkeys() {
         return new Hotkey[] {throttle, brake, clutch, shiftUp, shiftDown, nos, turbo, engineOn, left, right, lookBehind, ready, undo, sell, improve, quitRace};

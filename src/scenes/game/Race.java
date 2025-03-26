@@ -906,6 +906,8 @@ public class Race extends Scene {
 				car.clutch(true);
 			} else if (Controls.turbo.equals(key)) {
 				car.blowTurbo(true);
+			} else if (Controls.beep.equals(key)) {
+				car.beep();
 			} else if (Controls.lookBehind.equals(key) && !com.isSingleplayer()) {
 				raceVisual.lookBehind = true;
 			} else if (car.getStats().sequentialShift) {
