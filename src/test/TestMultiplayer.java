@@ -1045,6 +1045,49 @@ public class TestMultiplayer {
 		TestTranslator.testEqualAmountOfPlayers(gis);
 
 	}
+
+	@Test
+	void createLobbyAndSendBeep() {
+		var alice = new Remote2();
+		var bob = new Remote2();
+
+		// Alice creates a lobby
+		alice.info.gameInfo.join(new Player("Alice", Player.DEFAULT_ID, Player.HOST, Features.generateLanId(true)),
+				GameInfo.JOIN_TYPE_VIA_CREATOR, null, 0, 0);
+		Assertions.assertEquals(1, alice.info.gameInfo.getPlayers().length);
+
+		// Bob joins the lobby
+		bob.info.gameInfo.join(new Player("Bob", Player.DEFAULT_ID, Player.PLAYER, Features.generateLanId(false)),
+				GameInfo.JOIN_TYPE_VIA_CLIENT, null, 0, 0);
+		Assertions.assertEquals(1, bob.info.gameInfo.getPlayers().length);
+
+		// Bob sends a join message to Alice
+		var joinMsg = Message.msgJoin(0, bob.info.gameInfo.player);
+		bob.push(joinMsg);
+		bob.sendDirectly(alice);
+		alice.collect();
+		alice.sendDirectly(bob);
+		bob.collect();
+		bob.sendDirectly(alice);
+		alice.collect();
+
+		// Verify both players are in the lobby
+		Assertions.assertEquals(2, alice.info.gameInfo.getPlayers().length);
+		Assertions.assertEquals(2, bob.info.gameInfo.getPlayers().length);
+
+		// Alice sends a beep message to Bob
+		var beepMsg = Message.msgBeep(alice.info.gameInfo.player);
+		alice.push(beepMsg);
+		Assertions.assertEquals(1, alice.outQueue.size());
+		alice.sendDirectly(bob);
+		Assertions.assertEquals(1, bob.inQueue.size());
+		Assertions.assertEquals(beepMsg, bob.inQueue.peek());
+		bob.collect();
+		Assertions.assertEquals(0, bob.inQueue.size());
+
+		alice.close();
+		bob.close();
+	}
 }
 
 

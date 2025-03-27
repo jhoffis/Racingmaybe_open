@@ -66,7 +66,7 @@ public class AudioMaster implements AudioRemote {
 	private final Stack<CarAudio> cars;
 
 	private final int turboBlowoffLow, turboBlowoffHigh, turboBlowoffHigh2, turbospool, straightcut, redline, grind, nos, nosMid, nosBig, tireboost,
-			nosDown, soundbarrier, clutchIn, clutchOut, backfire, air, air1, air2, supercharger;
+			nosDown, soundbarrier, clutchIn, clutchOut, backfire, air, air1, air2, supercharger, beep;
 
 	public AudioMaster(float master, float sfx, float music) {
 		this.masterVolume = master;
@@ -177,6 +177,7 @@ public class AudioMaster implements AudioRemote {
 		air1 = loadSound("audio/sfx/car/air1.ogg", buffers);
 		air2 = loadSound("audio/sfx/car/air2.ogg", buffers);
 		supercharger = loadSound("audio/sfx/car/supercharger.ogg", buffers);
+		beep = loadSound("audio/sfx/car/beep.ogg", buffers);
 
 		tireboost = upgrades.get(TileNamesSfxs.Tireboost).getBuffer();
 
@@ -436,6 +437,7 @@ public class AudioMaster implements AudioRemote {
 		car.setSoundbarrier(new Source(soundbarrier));
 		car.setClutch(new Source(), clutchIn, clutchOut);
 		car.setBackfire(new Source(backfire));
+		car.setBeep(new Source(beep));
 
 		int[] gears = new int[11];
 

@@ -66,7 +66,8 @@ public class Translator {
             raceStarted = "raceStart",
             chat = "chat",
             newEndGoal = "endGoal",
-            resign = "resign";
+            resign = "resign",
+            beep = "beep";
     public static final String split = "#",
             specialSplit = "`",
             hashtag = "ଢ",
@@ -456,6 +457,12 @@ public class Translator {
             case raceLights -> info.gameInfo.setRaceLightsString(input, index);
             case chat ->
                     info.gameInfo.addChatFromServer(message.requestMessage.substring(message.requestMessage.indexOf("#") + 1));
+            case beep -> {
+                var player = getPlayer(info, input, index);
+                if (player != null)
+                    player.car.beep();
+
+            }
         }
 
         System.out.println((System.currentTimeMillis() - fromTime) + " ms resp");

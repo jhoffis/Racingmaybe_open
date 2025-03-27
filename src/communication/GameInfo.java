@@ -729,6 +729,12 @@ public class GameInfo implements ICloneStringable {
         return Message.msgChat(text);
     }
 
+    public void sendBeep(Player player) {
+        if (remote != null) {
+            remote.push(Message.msgBeep(player));
+        }
+    }
+
     public void sendChat(Player player, String text) {
         if (remote == null)
             return;

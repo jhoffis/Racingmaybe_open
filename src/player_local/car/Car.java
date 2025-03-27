@@ -420,6 +420,12 @@ public class Car {
 		shift(stats.gear - 1, timeNow);
 	}
 
+	public void beep() {
+		if (audio != null) {
+			audio.beep();
+		}
+	}
+
 	public void nos(boolean down) {
 		if (stats.nosBottleAmountLeft > 0) {
 			if (!down) {
