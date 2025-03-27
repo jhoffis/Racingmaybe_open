@@ -72,7 +72,7 @@ public class Remote2 {
      * Handles next message in the inQueue
      */
     public void collect() {
-    	var message = inQueue.poll();
+    	Message message = inQueue.poll();
         if (message == null || message.requestMessage.isEmpty())
             return;
 //        System.out.println("collect " + message.toString());
@@ -106,7 +106,7 @@ public class Remote2 {
             collect();
             int msgSize;
             while ((msgSize = way.getMessageAvailable()) != 0) {
-                var msg = way.popMessage(msgSize, this);
+                Message msg = way.popMessage(msgSize, this);
                 if (msg == null)
                     break;
                 System.out.println("msg: " + msg.toString());
@@ -130,11 +130,11 @@ public class Remote2 {
      * Handles next message in the outQueue
      */
     public void send() {
-        var message = outQueue.poll();
+        Message message = outQueue.poll();
         if (message == null)
             return;
-//        System.out.println("send " + message.toString());
-        var state = way.sendMessage(message);
+        System.out.println("send " + message.toString());
+        ResponseState state = way.sendMessage(message);
         if (state == ResponseState.KEEP_BACK) {
             outQueue.offer(message);
         }

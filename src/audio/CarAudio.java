@@ -130,7 +130,7 @@ public class CarAudio {
 	}
 
 	private void randomizeBeep() {
-		float pitch = 0.7f + r.nextFloat() * 1.25f;
+		float pitch = 0.85f + r.nextFloat() * 1.15f;
 		beep.pitch(pitch);
 	}
 
