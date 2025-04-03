@@ -59,7 +59,7 @@ import scenes.adt.Subscene;
 import scenes.game.lobby_subscenes.CarChoiceSubscene;
 import scenes.game.lobby_subscenes.UpgradesSubscene;
 import settings_and_logging.RSet;
-import settings_and_logging.hotkeys.RaceKeys;
+import settings_and_logging.hotkeys.Controls;
 
 /**
  * Visualization of a game
@@ -291,7 +291,6 @@ public class Lobby extends Scene {
 		};
 
 		readyBtn.setPressedAction(readyAction);
-//		readyBtn.tooltip = "Tip: You might have more money to spend.\nHotkey: Press R";
 		UIButton<?> goBack = new UIButton<>(Texts.leaveText);
 		goBack.setPressedAction(() -> {
 			audio.play(SfxTypes.REGULAR_PRESS);
@@ -876,7 +875,7 @@ public class Lobby extends Scene {
 		if (chatKeyInput(keycode, action)) {
 
 			if (InputHandler.CONTROL_DOWN) {
-				if (keycode == RaceKeys.ready) {
+				if (Controls.ready.equals(keycode)) {
 					readyBtn.runPressedAction();
 				} else if (keycode == GLFW.GLFW_KEY_V) {
 					var c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -913,7 +912,7 @@ public class Lobby extends Scene {
 				// Downstroke for quicker input
 				generalHoveredButtonNavigation(readyBtn, keycode);
 
-				if (keycode == RaceKeys.ready) {
+				if (Controls.ready.equals(keycode)) {
 					if (Main.DEBUG) {
 						readyBtn.setEnabled(true);
 					}

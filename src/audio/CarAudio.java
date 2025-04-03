@@ -29,14 +29,13 @@ import player_local.car.CarStats;
 
 public class CarAudio {
 
+	public int level = 0;
 	private Source motor, turboBlowoff, turbospool, supercharger, straightcutgears, redline, tireboost, grind, nos, nosMid, nosBig, nosDown,
-			soundbarrier, gear, clutch, backfire, air0, air1, air2;
+			soundbarrier, gear, clutch, backfire, air0, air1, air2, beep;
 	private int[] gears;
 	private int motorAcc, motorDcc;
 	private int clutchIn, clutchOut;
 	private int turboBlowoffLow, turboBlowoffHigh, turboBlowoffHigh2;
-
-	public int level = 0;
 	private float motorOverallVolume = 1;
 	private float wavgain, turboBlowoffVolume;
 	private AudioRemote audio;
@@ -130,6 +129,11 @@ public class CarAudio {
 		motorDcc();
 	}
 
+	private void randomizeBeep() {
+		float pitch = 0.85f + r.nextFloat() * 1.15f;
+		beep.pitch(pitch);
+	}
+
 	public void motorPitch(double rpm, double totalRPM, double maxValue, float gain) {
 		double value;
 		rpm = maxValue * rpm;
@@ -182,6 +186,11 @@ public class CarAudio {
 			else
 				turboBlowoff.play(turboBlowoffHigh2);
 		}
+	}
+
+	public void beep() {
+		randomizeBeep();
+		beep.play();
 	}
 
 	public void turbospoolPitch(float spool, float turboKw, float gain, float percentTurboSuper, float percentRpmToTop) {
@@ -355,6 +364,10 @@ public class CarAudio {
 	public void setStraightcut(Source straightcut) {
 		this.straightcutgears = straightcut;
 		straightcut.loop(true);
+	}
+
+	public void setBeep(Source beep) {
+		this.beep = beep;
 	}
 
 	public void setRedline(Source redline) {

@@ -31,7 +31,6 @@ import scenes.SceneHandler;
 import scenes.Scenes;
 import scenes.adt.Scene;
 import scenes.game.racing_subscenes.RaceVisual;
-import settings_and_logging.ControlsSettings;
 import settings_and_logging.RSet;
 
 public class OptionsScene extends Scene {

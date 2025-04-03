@@ -43,18 +43,16 @@ import engine.io.Window;
 import engine.math.Vec2;
 import engine.math.Vec3;
 import main.Features;
-import main.Main;
 import main.ResourceHandler;
 import player_local.Player;
 import player_local.car.Car;
-import player_local.car.CarModel;
 import player_local.car.CarStats;
 import player_local.car.Rep;
 import scenes.SceneHandler;
 import scenes.Scenes;
 import scenes.adt.Visual;
 import scenes.game.Race;
-import scenes.regular.HotkeysScene;
+import settings_and_logging.hotkeys.Controls;
 
 public class RaceVisual extends Visual {
 
@@ -313,18 +311,18 @@ public class RaceVisual extends Visual {
 			}
 			playerListPlacement.addText("Right =>");
 		}
-		
+
 		var stats = player.car.getStats();
 		var dogbox = stats.stats[Rep.throttleShift] == 0;
-		hintsLabel.setText("Drive: " + HotkeysScene.Throttle + "  " + "Shift: "
-				+ (dogbox ? "Release " + HotkeysScene.Throttle + " and " : "")
+		hintsLabel.setText("Drive: " + Controls.throttle.getKeyName() + "  " + "Shift: "
+				+ (dogbox ? "Release " + Controls.throttle.getKeyName() + " and " : "")
 				+ (stats.sequentialShift
-						? (!dogbox ? "C" : "c") + "lick gear lever or " + HotkeysScene.ShiftUp + "/"
-								+ HotkeysScene.ShiftDown
+						? (!dogbox ? "C" : "c") + "lick gear lever or " + Controls.shiftUp.getKeyName() + "/"
+								+ Controls.shiftDown.getKeyName()
 						: (!dogbox ? "D" : "d") + "rag gear lever")
-				+ (stats.nosBottleAmountLeft != 0 ? "  NOS: " + HotkeysScene.Nos : "")
-				+ (stats.stats[Rep.bar] != 0 ? "  Turbo: " + HotkeysScene.Turbo : "") + "  Quit: "
-				+ HotkeysScene.QuitRace);
+				+ (stats.nosBottleAmountLeft != 0 ? "  NOS: " + Controls.nos.getKeyName() : "")
+				+ (stats.stats[Rep.bar] != 0 ? "  Turbo: " + Controls.turbo.getKeyName() : "") + "  Quit: "
+				+ Controls.quitRace.getKeyName());
 		lookBehind = false;
 		this.lifes = lifes;
 		spdIncActual = 0;

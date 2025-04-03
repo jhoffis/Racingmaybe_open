@@ -13,21 +13,23 @@ public class Settings {
 	public List<String> lines;
 
 	/**
-	 * @param filename
-	 *            without the type
-	 * @return true if file did not exist from before
+	 * @param filename without the type
 	 */
-	public void init(String filename) throws IOException{
+	public void init(String filename) {
 		file = new File(filename);
 
-		if (!file.isFile()) {
-			if (file.createNewFile()) {
-				PrintWriter pw = new PrintWriter(file);
-				pw.flush();
-				pw.close();
+		try {
+			if (!file.isFile()) {
+				if (file.createNewFile()) {
+					PrintWriter pw = new PrintWriter(file);
+					pw.flush();
+					pw.close();
+				}
 			}
+			readSettingsLines();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		readSettingsLines();
 	}
 
 	private void readSettingsLines() throws IOException {
@@ -78,7 +80,6 @@ public class Settings {
 				String[] splitLine = lines.get(linenr).split("=");
 				if (splitLine.length > 1)
 					res = splitLine[1];
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

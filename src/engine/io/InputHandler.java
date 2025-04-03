@@ -15,7 +15,6 @@ import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_MIDDLE;
 import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_RIGHT;
 import static org.lwjgl.nuklear.Nuklear.nk_input_button;
 import static org.lwjgl.nuklear.Nuklear.nk_input_motion;
-import static org.lwjgl.nuklear.Nuklear.nk_input_unicode;
 import static org.lwjgl.nuklear.Nuklear.nnk_strlen;
 import static org.lwjgl.nuklear.Nuklear.nnk_textedit_paste;
 import static org.lwjgl.system.MemoryStack.stackPush;
@@ -25,8 +24,6 @@ import static org.lwjgl.system.MemoryUtil.memCopy;
 
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.function.DoubleConsumer;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
@@ -35,17 +32,13 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
 
 import engine.graphics.ui.UISceneInfo;
 import main.Main;
 import scenes.SceneHandler;
 import scenes.Scenes;
 import scenes.adt.ISceneManipulation;
-import scenes.adt.Scene;
-import settings_and_logging.ControlsSettings;
 
 public class InputHandler {
 
@@ -55,7 +48,6 @@ public class InputHandler {
 
 	public static float x, y;
 	private static ISceneManipulation currentScene;
-	private ControlsSettings keys;
 	public static boolean CONTROLLER, HOLDING, REPEAT, WAS_BUTTON, CONTROLLER_EFFECTIVELY, CHANGE;
 	private static int CONTROLLER_JID = -1;
 	private static long REPEAT_TIME;
@@ -72,7 +64,6 @@ public class InputHandler {
 	
 	public InputHandler(Window win, NkContext ctx) {
 		this.win = win;
-		keys = new ControlsSettings();
 
 		long myWindow = win.getWindow();
 
@@ -380,10 +371,6 @@ public class InputHandler {
 
 	public void setCurrent(ISceneManipulation scene) {
 		currentScene = scene;
-	}
-
-	public ControlsSettings getKeys() {
-		return keys;
 	}
 
 	public static void forceMousePos() {

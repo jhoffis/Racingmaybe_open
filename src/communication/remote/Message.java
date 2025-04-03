@@ -165,4 +165,8 @@ public class Message {
         return new Message(REQUESTER_ID_ALL, Translator.mailResAll + Translator.initials(Translator.resign, player));
     }
 
+    public static Message msgBeep(Player player) {
+        return new Message(REQUESTER_ID_ALL, Translator.mailResAll + Translator.initials(Translator.beep, player));
+    }
+
 }
