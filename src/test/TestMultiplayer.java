@@ -1026,7 +1026,7 @@ public class TestMultiplayer {
 //		var a1 = UpgradesSubscene.updateReadyBtnEnabled(alice, alice.player);
 		var b0 = Lobby.decideEnableReadyBtn(bob);
 //		var b1 = UpgradesSubscene.updateReadyBtnEnabled(bob, bob.player);
-		
+
 		Assertions.assertEquals(a0, b0);
 //		Assertions.assertEquals(a1, b1);
 		Assertions.assertTrue(alice.getGamemode().isRacing());
@@ -1051,17 +1051,14 @@ public class TestMultiplayer {
 		var alice = new Remote2();
 		var bob = new Remote2();
 
-		// Alice creates a lobby
 		alice.info.gameInfo.join(new Player("Alice", Player.DEFAULT_ID, Player.HOST, Features.generateLanId(true)),
 				GameInfo.JOIN_TYPE_VIA_CREATOR, null, 0, 0);
 		Assertions.assertEquals(1, alice.info.gameInfo.getPlayers().length);
 
-		// Bob joins the lobby
 		bob.info.gameInfo.join(new Player("Bob", Player.DEFAULT_ID, Player.PLAYER, Features.generateLanId(false)),
 				GameInfo.JOIN_TYPE_VIA_CLIENT, null, 0, 0);
 		Assertions.assertEquals(1, bob.info.gameInfo.getPlayers().length);
 
-		// Bob sends a join message to Alice
 		var joinMsg = Message.msgJoin(0, bob.info.gameInfo.player);
 		bob.push(joinMsg);
 		bob.sendDirectly(alice);
@@ -1071,11 +1068,9 @@ public class TestMultiplayer {
 		bob.sendDirectly(alice);
 		alice.collect();
 
-		// Verify both players are in the lobby
 		Assertions.assertEquals(2, alice.info.gameInfo.getPlayers().length);
 		Assertions.assertEquals(2, bob.info.gameInfo.getPlayers().length);
 
-		// Alice sends a beep message to Bob
 		var beepMsg = Message.msgBeep(alice.info.gameInfo.player);
 		alice.push(beepMsg);
 		Assertions.assertEquals(1, alice.outQueue.size());
