@@ -41,6 +41,9 @@ public class CarAudio {
 	private AudioRemote audio;
 	private Random r;
 
+	private long lastGrindPlayTime = 0;
+    private final long GRIND_COOLDOWN = 30;
+
 	public CarAudio(int motorAcc, int motorDcc, AudioRemote audio) {
 		this.audio = audio;
 		gear = new Source();
@@ -257,7 +260,13 @@ public class CarAudio {
 	}
 
 	public void grind() {
-		grind.play();
+		if (grind == null)
+			return;
+		long now = System.currentTimeMillis();
+		if (!grind.isPlaying() || now - lastGrindPlayTime > GRIND_COOLDOWN) {
+			grind.play();
+			lastGrindPlayTime = now;
+		}
 	}
 
 	public void nos(boolean down, double amount) {
